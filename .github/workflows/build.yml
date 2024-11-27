@@ -23,12 +23,12 @@ jobs:
     - name: Install Visual Studio Build Tools
       shell: cmd
       run: |
-        choco install visualstudio2022buildtools --confirm
-        call "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
+        choco install visualstudio2022buildtools --confirm --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --includeOptional"
 
-    - name: Build wheels
+    - name: Initialize Developer Command Prompt
       shell: cmd
       run: |
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
         git submodule update --init --recursive
         ./build-wheels.bat 3.12
 
