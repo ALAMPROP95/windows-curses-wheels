@@ -13,18 +13,18 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Debug file structure
-      run: dir
-
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.12'
-
-    - name: Install dependencies
+    - name: Install Chocolatey
+      shell: powershell
       run: |
-        python -m pip install --upgrade pip
-        pip install wheel setuptools
+        Set-ExecutionPolicy Bypass -Scope Process -Force; `
+        [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; `
+        iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+    - name: Install Visual Studio Build Tools
+      shell: cmd
+      run: |
+        choco install visualstudio2022buildtools --confirm
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
 
     - name: Build wheels
       shell: cmd
