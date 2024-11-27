@@ -25,10 +25,38 @@ jobs:
       run: |
         choco install visualstudio2022buildtools --confirm --package-parameters "--add Microsoft.VisualStudio.Workload.VCTools --includeRecommended --includeOptional"
 
+    - name: Install CMake
+      shell: cmd
+      run: |
+        choco install cmake --confirm
+
+    - name: Verify CMake Installation
+      shell: cmd
+      run: cmake --version
+
     - name: Initialize Developer Command Prompt
       shell: cmd
       run: |
         call "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
+
+    - name: Install setuptools and wheel for Python 3.12
+      shell: cmd
+      run: |
+        py -3.12 -m pip install --upgrade pip setuptools wheel
+
+    - name: Verify Python 3.12 Environment
+      shell: cmd
+      run: |
+        py -3.12 -m pip list
+        py -3.12 --version
+
+    - name: Verify Compiler Version
+      shell: cmd
+      run: cl
+
+    - name: Build wheels
+      shell: cmd
+      run: |
         git submodule update --init --recursive
         ./build-wheels.bat 3.12
 
