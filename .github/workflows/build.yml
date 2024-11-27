@@ -1,10 +1,9 @@
-%%writefile .github/workflows/build.yml
 name: Build Windows Curses Wheels
 
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build:
