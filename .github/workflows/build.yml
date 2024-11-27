@@ -1,0 +1,36 @@
+%%writefile .github/workflows/build.yml
+name: Build Windows Curses Wheels
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install wheel setuptools
+
+    - name: Build wheels
+      run: |
+        git submodule update --init --recursive
+        build-wheels.bat 3.12
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: windows-curses-wheel
+        path: dist/*.whl
