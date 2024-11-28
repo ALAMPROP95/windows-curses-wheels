@@ -39,20 +39,18 @@ jobs:
       run: |
         call "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
 
+    - name: Check PATH
+      shell: cmd
+      run: echo %PATH%
+
+    - name: Check cl.exe Path
+      shell: cmd
+      run: dir "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\*\bin\Hostx64\x64\cl.exe"
+
     - name: Install setuptools and wheel for Python 3.12
       shell: cmd
       run: |
         py -3.12 -m pip install --upgrade pip setuptools wheel
-
-    - name: Verify Python 3.12 Environment
-      shell: cmd
-      run: |
-        py -3.12 -m pip list
-        py -3.12 --version
-
-    - name: Verify Compiler Version
-      shell: cmd
-      run: cl
 
     - name: Build wheels
       shell: cmd
